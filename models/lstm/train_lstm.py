@@ -1,3 +1,4 @@
+from tensorflow import keras
 from sklearn.utils.class_weight import compute_class_weight
 import json
 import numpy as np
@@ -35,3 +36,27 @@ classes = np.array([0, 1])
 weights = compute_class_weight('balanced', classes=classes, y=y_train)
 class_weight = {0: float(weights[0]), 1: float(weights[1])}
 print('class_weight:', class_weight)
+
+
+Path('models/lstm/checkpoints').mkdir(parents=True, exist_ok=True)
+Path('models/lstm/outputs').mkdir(parents=True, exist_ok=True)
+model = build_lstm_model(max_len=MAX_LEN)
+model.summary()
+callbacks = [
+    keras.callbacks.EarlyStopping(
+        monitor='val_auc', mode='max', patience=3, restore_best_weights=True),
+    keras.callbacks.ModelCheckpoint(
+        'models/lstm/checkpoints/best_lstm.keras',
+        monitor='val_auc', mode='max', save_best_only=True),
+    keras.callbacks.ReduceLROnPlateau(
+        monitor='val_loss', factor=0.5, patience=2, min_lr=1e-6),
+]
+with Timer() as t_train:
+    history = model.fit(
+        X_train, y_train,
+        validation_data=(X_val, y_val),
+        epochs=15, batch_size=256,
+        class_weight=class_weight,
+        callbacks=callbacks, verbose=1,
+    )
+hist = {k: list(map(float, v)) for k, v in history.history.items()}
