@@ -1,0 +1,2 @@
+model,threshold,accuracy,precision,recall,f1_score,roc_auc,inference_time_seconds,trainable_parameters,test_samples,true_negatives,false_positives,false_negatives,true_positives
+Deep MLP,0.9700000000000001,0.9851918882898164,0.2971639950678175,0.7465152297367063,0.42510657063060414,0.9481737287737174,0.17243930000017826,11521,264112,258755,3420,491,1446
