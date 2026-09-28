@@ -1,4 +1,4 @@
-import jason
+import json
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -17,9 +17,14 @@ set_seed(SEED)
 
 model_events = pd.read_parquet(f'{PROCESSED_DIR}/model_events.parquet ')
 labels = pd.read_csv(f'{PROCESSED_DIR}/labels.csv')
-with open(f'{PROCESSED_DIR}/split-ids.jason') as f:
+with open(f'{PROCESSED_DIR}/split-ids.json') as f:
     split = jason.load(f)
 
     print(model_events.head())
     print(labels['target'].value_counts())
     print({k: len(V) for k, v in split.items()})
+
+
+X_train, y_train = build_sequences(model_events, labels, split['train'])
+X_val,   y_val = build_sequences(model_events, labels, split['val'])
+X_test,  y_test = build_sequences(model_events, labels, split['test'])
