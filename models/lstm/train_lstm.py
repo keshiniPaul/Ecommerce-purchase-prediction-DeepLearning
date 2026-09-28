@@ -1,3 +1,4 @@
+from sklearn.utils.class_weight import compute_class_weight
 import json
 import numpy as np
 import pandas as pd
@@ -28,3 +29,9 @@ with open(f'{PROCESSED_DIR}/split-ids.json') as f:
 X_train, y_train = build_sequences(model_events, labels, split['train'])
 X_val,   y_val = build_sequences(model_events, labels, split['val'])
 X_test,  y_test = build_sequences(model_events, labels, split['test'])
+
+
+classes = np.array([0, 1])
+weights = compute_class_weight('balanced', classes=classes, y=y_train)
+class_weight = {0: float(weights[0]), 1: float(weights[1])}
+print('class_weight:', class_weight)
