@@ -1,0 +1,18 @@
+{
+  "run_id": "20260928_161756",
+  "max_len": 20,
+  "embed_dim": 16,
+  "lstm_units": 32,
+  "dropout": 0.3,
+  "batch_size": 256,
+  "epochs_max": 15,
+  "class_weight": "balanced",
+  "n_train": 1232515,
+  "n_val": 264110,
+  "n_test": 264112,
+  "accuracy": 0.9809966983703883,
+  "precision": 0.2624845869297164,
+  "recall": 0.8791946308724832,
+  "f1": 0.40427299703264097,
+  "roc_auc": 0.9480661934172352
+}
